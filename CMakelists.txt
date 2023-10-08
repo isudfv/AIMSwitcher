@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(AIMSwitcher VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(Boost COMPONENTS program_options REQUIRED)
+find_package(fmt)
+
+add_executable(AIMSwitcher
+    main.cpp
+)
+
+set_target_properties(AIMSwitcher PROPERTIES
+    WIN32_EXECUTABLE $<CONFIG:Release>
+)
+
+target_link_libraries(AIMSwitcher PRIVATE
+    Boost::program_options
+    fmt::fmt
+)
+
+target_link_options(AIMSwitcher PRIVATE
+    "$<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>"
+    "$<$<CONFIG:Release>:/ENTRY:mainCRTStartup>"
+)
